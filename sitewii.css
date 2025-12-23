@@ -1,0 +1,385 @@
+.game-image {
+    width: 100%;
+    max-width: 220px;
+    display: block;
+    margin: 0 auto 1rem auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(135, 206, 235, 0.15);
+    background: #222;
+    object-fit: cover;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 3px solid #87CEEB;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #87CEEB;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(135, 206, 235, 0.3);
+}
+
+header p {
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.user-form-section {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-bottom: 2px solid #87CEEB;
+}
+
+.user-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.user-form-container h2 {
+    color: #87CEEB;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.required {
+    color: #FF6B6B;
+    font-weight: bold;
+}
+
+#userForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#userForm input {
+    padding: 1rem;
+    border: 2px solid #87CEEB;
+    border-radius: 8px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#userForm input:focus {
+    outline: none;
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+}
+
+#userForm input::placeholder {
+    color: #808080;
+}
+
+.submit-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #87CEEB, #5fa8c9);
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #ffffff, #87CEEB);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(135, 206, 235, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.form-message {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-weight: bold;
+    display: none;
+}
+
+.form-message.success {
+    display: block;
+    background-color: rgba(135, 206, 235, 0.2);
+    color: #87CEEB;
+    border: 1px solid #87CEEB;
+}
+
+.form-message.error {
+    display: block;
+    background-color: rgba(255, 100, 100, 0.2);
+    color: #ff6464;
+    border: 1px solid #ff6464;
+}
+
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.storage-section {
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    border: 2px solid #87CEEB;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.usb-selector {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.usb-selector label {
+    display: block;
+    color: #87CEEB;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+#usbSize {
+    padding: 0.8rem 1.5rem;
+    border: 2px solid #87CEEB;
+    border-radius: 8px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+#usbSize:focus {
+    outline: none;
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+}
+
+.storage-tracker {
+    background-color: #000000;
+    border: 2px solid #87CEEB;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.storage-info {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.storage-info h3 {
+    color: #87CEEB;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.storage-text {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.storage-bar {
+    width: 100%;
+    height: 40px;
+    background-color: #1a1a1a;
+    border: 2px solid #87CEEB;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 1rem 0;
+    position: relative;
+}
+
+.storage-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #87CEEB, #5fa8c9);
+    width: 0%;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    font-weight: bold;
+    border-radius: 18px;
+}
+
+.storage-fill.warning {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+}
+
+.storage-fill.danger {
+    background: linear-gradient(90deg, #FF6B6B, #FF4444);
+}
+
+.storage-remaining {
+    text-align: center;
+    color: #87CEEB;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.storage-remaining.warning {
+    color: #FFD700;
+}
+
+.storage-remaining.danger {
+    color: #FF6B6B;
+}
+
+.filter-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+#searchInput, #categoryFilter {
+    padding: 0.8rem;
+    border: 2px solid #87CEEB;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#searchInput {
+    flex: 1;
+    min-width: 250px;
+}
+
+#categoryFilter {
+    min-width: 200px;
+}
+
+#searchInput:focus, #categoryFilter:focus {
+    outline: none;
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+}
+
+.games-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.game-card {
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    border: 2px solid #87CEEB;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(135, 206, 235, 0.4);
+    border-color: #ffffff;
+}
+
+.game-card h3 {
+    color: #87CEEB;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.game-card .category {
+    display: inline-block;
+    background-color: #87CEEB;
+    color: #000000;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+}
+
+.game-card .description {
+    color: #ffffff;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.game-card .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #87CEEB;
+    font-weight: bold;
+}
+
+.game-card .game-size {
+    margin-top: 0.5rem;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.game-card.selected {
+    background: linear-gradient(145deg, #87CEEB, #5fa8c9);
+    border-color: #ffffff;
+}
+
+.game-card.selected h3,
+.game-card.selected .description,
+.game-card.selected .rating {
+    color: #000000;
+}
+
+.game-card.selected .category {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+footer {
+    background-color: #1a1a1a;
+    border-top: 3px solid #87CEEB;
+    padding: 1.5rem;
+    text-align: center;
+    color: #87CEEB;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .games-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-container {
+        flex-direction: column;
+    }
+}

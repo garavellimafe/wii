@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Wii</title>
+    <link rel="stylesheet" href="sitewii.css">
+</head>
+<body>
+    <header>
+        <h1>Wii Games Collection</h1>
+        <p>Escolha seus jogos favoritos</p>
+    </header>
+
+    <section class="user-form-section">
+        <div class="user-form-container">
+            <h2>Identifique-se <span class="required">*</span></h2>
+            <form id="userForm">
+                <input type="text" id="userName" placeholder="Nome completo *" required>
+                <input type="email" id="userEmail" placeholder="E-mail *" required>
+                <button type="submit" class="submit-btn">Gerar Pedido</button>
+            </form>
+            <p id="formMessage" class="form-message"></p>
+        </div>
+    </section>
+
+    <main>
+        <div class="storage-section">
+            <div class="usb-selector">
+                <label for="usbSize">Escolha o tamanho do Pen Drive: <span class="required">*</span></label>
+                <select id="usbSize" required>
+                    <option value="4">4 GB</option>
+                    <option value="8">8 GB</option>
+                    <option value="16" selected>16 GB</option>
+                    <option value="32">32 GB</option>
+                    <option value="64">64 GB</option>
+                    <option value="128">128 GB</option>
+                </select>
+            </div>
+            
+            <div class="storage-tracker">
+                <div class="storage-info">
+                    <h3>Armazenamento do Pen Drive</h3>
+                    <p class="storage-text">
+                        <span id="usedStorage">0</span> GB usado de 
+                        <span id="totalStorage">16</span> GB
+                    </p>
+                </div>
+                <div class="storage-bar">
+                    <div class="storage-fill" id="storageFill"></div>
+                </div>
+                <p class="storage-remaining">
+                    <span id="remainingStorage">16</span> GB disponível
+                </p>
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <input type="text" id="searchInput" placeholder="Buscar jogos...">
+            <select id="categoryFilter">
+                <option value="all">Todas as Categorias</option>
+                <option value="action">Ação</option>
+                <option value="sports">Esportes</option>
+                <option value="adventure">Aventura</option>
+                <option value="racing">Corrida</option>
+            </select>
+        </div>
+
+        <div class="games-container" id="gamesContainer">
+            <!-- Games will be loaded here by JavaScript -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Wii Games Collection</p>
+    </footer>
+
+    <script src="sitewii.js"></script>
+</body>
+</html>
