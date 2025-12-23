@@ -1,3 +1,13 @@
+// Retorna o nome da categoria em português
+function getCategoryName(category) {
+    const categories = {
+        'action': 'Ação',
+        'sports': 'Esportes',
+        'adventure': 'Aventura',
+        'racing': 'Corrida'
+    };
+    return categories[category] || category;
+}
 // Barra de letras do alfabeto
 let selectedLetter = null;
 
@@ -10,17 +20,7 @@ function renderAlphabetBar() {
         btn.className = 'alphabet-letter' + (selectedLetter === letter ? ' selected' : '');
         btn.textContent = letter;
         btn.dataset.letter = letter;
-        bar.appendChild(btn);
-    });
-}
-
-// Adiciona o event listener apenas uma vez
-document.addEventListener('DOMContentLoaded', () => {
-    renderAlphabetBar();
-    const alphabetBar = document.getElementById('alphabetBar');
-    alphabetBar.addEventListener('click', (e) => {
-        if (e.target.classList.contains('alphabet-letter')) {
-            const letter = e.target.dataset.letter;
+        btn.addEventListener('click', () => {
             if (selectedLetter === letter) {
                 selectedLetter = null;
             } else {
@@ -28,11 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             renderAlphabetBar();
             filterGames();
-        }
+        });
+        bar.appendChild(btn);
     });
-// ...existing code...
+}
 
-// Wii Games Data
+// Lista de jogos
 const games = [
     {
         id: 1,
@@ -142,7 +143,6 @@ const games = [
         size: 4.2,
         image: "img/soniccolors.avif"
     }
-// Fim do arquivo: garantir chave de fechamento
 ];
 
 let selectedGames = new Set();
@@ -158,6 +158,54 @@ document.addEventListener('DOMContentLoaded', () => {
     setupStorageListener();
     updateStorageDisplay();
 });
+
+// Adiciona listeners para busca, filtro e ordenação
+function setupEventListeners() {
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortAlphaBtn = document.getElementById('sortAlphaBtn');
+
+    if (searchInput) searchInput.addEventListener('input', filterGames);
+    if (categoryFilter) categoryFilter.addEventListener('change', filterGames);
+    if (sortAlphaBtn) sortAlphaBtn.addEventListener('click', () => {
+        isAlphaSorted = !isAlphaSorted;
+        sortAlphaBtn.textContent = isAlphaSorted ? 'Ordenar Original' : 'Ordenar A-Z';
+        filterGames();
+    });
+}
+
+// Adiciona listener para o formulário de pedido
+function setupFormListener() {
+    const form = document.getElementById('userForm');
+    const message = document.getElementById('formMessage');
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('userName').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        const usbSize = document.getElementById('usbSize').value;
+        if (!name || !email || !usbSize) {
+            message.textContent = 'Preencha todos os campos obrigatórios.';
+            message.className = 'form-message error';
+            return;
+        }
+        if (selectedGames.size === 0) {
+            message.textContent = 'Selecione pelo menos um jogo.';
+            message.className = 'form-message error';
+            return;
+        }
+        generateOrderFile(name, email, usbSize);
+        message.textContent = `Pedido gerado para ${name}!`;
+        message.className = 'form-message success';
+        setTimeout(() => {
+            form.reset();
+            message.textContent = '';
+            selectedGames.clear();
+            displayGames(games);
+            updateStorageDisplay();
+        }, 5000);
+    });
+}
 
 // Display games
 function displayGames(gamesToDisplay) {
@@ -192,148 +240,6 @@ function createGameCard(game) {
     card.addEventListener('click', () => toggleGameSelection(game.id, card));
 
     return card;
-}
-
-// Toggle game selection
-function toggleGameSelection(gameId, cardElement) {
-    const game = games.find(g => g.id === gameId);
-    
-    if (selectedGames.has(gameId)) {
-        selectedGames.delete(gameId);
-        cardElement.classList.remove('selected');
-        updateStorageDisplay();
-    } else {
-        // Check if there's enough space
-        const currentUsed = calculateUsedStorage();
-        if (currentUsed + game.size <= totalUsbSize) {
-            selectedGames.add(gameId);
-            cardElement.classList.add('selected');
-            updateStorageDisplay();
-        } else {
-            alert(`Espaço insuficiente! Este jogo precisa de ${game.size} GB, mas você só tem ${(totalUsbSize - currentUsed).toFixed(1)} GB disponível.`);
-        }
-    }
-}
-
-// Get category name in Portuguese
-function getCategoryName(category) {
-    const categories = {
-        'action': 'Ação',
-        'sports': 'Esportes',
-        'adventure': 'Aventura',
-        'racing': 'Corrida'
-    };
-    return categories[category] || category;
-}
-
-// Setup event listeners
-function setupEventListeners() {
-    const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const sortAlphaBtn = document.getElementById('sortAlphaBtn');
-
-    searchInput.addEventListener('input', filterGames);
-    categoryFilter.addEventListener('change', filterGames);
-    sortAlphaBtn.addEventListener('click', () => {
-        isAlphaSorted = !isAlphaSorted;
-        sortAlphaBtn.textContent = isAlphaSorted ? 'Ordenar Original' : 'Ordenar A-Z';
-        filterGames();
-    });
-}
-
-// Setup form listener
-function setupFormListener() {
-    const form = document.getElementById('userForm');
-    const message = document.getElementById('formMessage');
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById('userName').value.trim();
-        const email = document.getElementById('userEmail').value.trim();
-        const usbSize = document.getElementById('usbSize').value;
-
-        // Validate all required fields
-        if (!name) {
-            message.textContent = 'Por favor, preencha seu nome.';
-            message.className = 'form-message error';
-            return;
-        }
-
-        if (!email) {
-            message.textContent = 'Por favor, preencha seu e-mail.';
-            message.className = 'form-message error';
-            return;
-        }
-
-        if (!usbSize) {
-            message.textContent = 'Por favor, selecione o tamanho do pen drive.';
-            message.className = 'form-message error';
-            return;
-        }
-
-        if (selectedGames.size === 0) {
-            message.textContent = 'Por favor, selecione pelo menos um jogo.';
-            message.className = 'form-message error';
-            return;
-        }
-
-        // Monta lista de jogos selecionados
-        const selectedGamesList = [];
-        selectedGames.forEach(gameId => {
-            const game = games.find(g => g.id === gameId);
-            if (game) {
-                selectedGamesList.push({
-                    id: game.id,
-                    title: game.title,
-                    category: getCategoryName(game.category),
-                    size: game.size,
-                    rating: game.rating,
-                    description: game.description
-                });
-            }
-        });
-
-        // Envia para o backend
-        try {
-            const response = await fetch('http://localhost:5000/api/pedido', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    nome: name,
-                    email: email,
-                    pendrive: usbSize,
-                    jogos: selectedGamesList
-                })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                message.textContent = `Obrigado, ${name}! Seu pedido foi salvo como ${data.filename}.`;
-                message.className = 'form-message success';
-            } else {
-                const err = await response.json();
-                message.textContent = err.error || 'Erro ao salvar pedido no servidor.';
-                message.className = 'form-message error';
-                return;
-            }
-        } catch (error) {
-            message.textContent = 'Erro de conexão com o servidor.';
-            message.className = 'form-message error';
-            return;
-        }
-
-        // Limpa formulário após 5 segundos
-        setTimeout(() => {
-            form.reset();
-            message.style.display = 'none';
-            selectedGames.clear();
-            displayGames(games);
-            updateStorageDisplay();
-        }, 5000);
-    });
 }
 
 // Generate order file
@@ -484,4 +390,4 @@ function updateStorageDisplay() {
         remainingText.classList.add('warning');
     }
 }
-})
+// ...fim do arquivo
