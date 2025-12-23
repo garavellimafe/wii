@@ -1,3 +1,44 @@
+.alphabet-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    justify-content: center;
+    margin: 1rem 0 1.5rem 0;
+}
+.alphabet-letter {
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    background: #1a1a1a;
+    color: #87CEEB;
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid #87CEEB;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+.alphabet-letter.selected, .alphabet-letter:hover {
+    background: #87CEEB;
+    color: #000000;
+    border-color: #ffffff;
+}
+.filter-container #sortAlphaBtn {
+    padding: 0.8rem 1.2rem;
+    background: #87CEEB;
+    color: #000000;
+    border: 2px solid #87CEEB;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 0.5rem;
+}
+.filter-container #sortAlphaBtn:hover {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
 .game-image {
     width: 100%;
     max-width: 220px;

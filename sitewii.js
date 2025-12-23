@@ -1,3 +1,37 @@
+// Barra de letras do alfabeto
+let selectedLetter = null;
+
+function renderAlphabetBar() {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const bar = document.getElementById('alphabetBar');
+    bar.innerHTML = '';
+    alphabet.forEach(letter => {
+        const btn = document.createElement('span');
+        btn.className = 'alphabet-letter' + (selectedLetter === letter ? ' selected' : '');
+        btn.textContent = letter;
+        btn.dataset.letter = letter;
+        bar.appendChild(btn);
+    });
+}
+
+// Adiciona o event listener apenas uma vez
+document.addEventListener('DOMContentLoaded', () => {
+    renderAlphabetBar();
+    const alphabetBar = document.getElementById('alphabetBar');
+    alphabetBar.addEventListener('click', (e) => {
+        if (e.target.classList.contains('alphabet-letter')) {
+            const letter = e.target.dataset.letter;
+            if (selectedLetter === letter) {
+                selectedLetter = null;
+            } else {
+                selectedLetter = letter;
+            }
+            renderAlphabetBar();
+            filterGames();
+        }
+    });
+// ...existing code...
+
 // Wii Games Data
 const games = [
     {
@@ -108,13 +142,16 @@ const games = [
         size: 4.2,
         image: "img/soniccolors.avif"
     }
+// Fim do arquivo: garantir chave de fechamento
 ];
 
 let selectedGames = new Set();
-let totalUsbSize = 16; // GB
+let totalUsbSize = 16; // GB;
+let isAlphaSorted = false;
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
+    renderAlphabetBar();
     displayGames(games);
     setupEventListeners();
     setupFormListener();
@@ -193,9 +230,15 @@ function getCategoryName(category) {
 function setupEventListeners() {
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
+    const sortAlphaBtn = document.getElementById('sortAlphaBtn');
 
     searchInput.addEventListener('input', filterGames);
     categoryFilter.addEventListener('change', filterGames);
+    sortAlphaBtn.addEventListener('click', () => {
+        isAlphaSorted = !isAlphaSorted;
+        sortAlphaBtn.textContent = isAlphaSorted ? 'Ordenar Original' : 'Ordenar A-Z';
+        filterGames();
+    });
 }
 
 // Setup form listener
@@ -365,12 +408,22 @@ function filterGames() {
         filteredGames = filteredGames.filter(game => game.category === category);
     }
 
+    // Filter by alphabet letter
+    if (selectedLetter) {
+        filteredGames = filteredGames.filter(game => game.title[0].toUpperCase() === selectedLetter);
+    }
+
     // Filter by search term
     if (searchTerm) {
         filteredGames = filteredGames.filter(game =>
             game.title.toLowerCase().includes(searchTerm) ||
             game.description.toLowerCase().includes(searchTerm)
         );
+    }
+
+    // Sort alphabetically if enabled
+    if (isAlphaSorted) {
+        filteredGames = filteredGames.slice().sort((a, b) => a.title.localeCompare(b.title));
     }
 
     displayGames(filteredGames);
@@ -431,3 +484,4 @@ function updateStorageDisplay() {
         remainingText.classList.add('warning');
     }
 }
+})
