@@ -4,7 +4,9 @@ function getCategoryName(category) {
         'action': 'Ação',
         'sports': 'Esportes',
         'adventure': 'Aventura',
-        'racing': 'Corrida'
+        'racing': 'Corrida',
+        'music': 'Música',
+        'simulation': 'Simulação'
     };
     return categories[category] || category;
 }
@@ -142,6 +144,33 @@ const games = [
         rating: "8.5",
         size: 4.2,
         image: "img/soniccolors.avif"
+    },
+    {
+        id: 13,
+        title: "ABBA: You Can Dance",
+        category: "music",
+        description: "Jogo de dança com músicas do ABBA para toda a família.",
+        rating: "7.8",
+        size: 3.6,
+        image: "img/Abbayoucandance.avif"
+    },
+    {
+        id: 14,
+        title: "Babysitting Mama",
+        category: "simulation",
+        description: "Jogo de simulação onde você cuida de bebês e realiza tarefas domésticas.",
+        rating: "7.6",
+        size: 1.6,
+        image: "img/babysittingmama.avif"
+    },
+    {
+        id: 15,
+        title: "Excite Truck",
+        category: "racing",
+        description: "Corridas off-road emocionantes com caminhões customizáveis.",
+        rating: "8.3",
+        size: 0.6,
+        image: "img/excitetruck.avif"
     }
 ];
 
